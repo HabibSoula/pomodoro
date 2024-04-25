@@ -5,6 +5,7 @@ import 'package:pomo/ui/common/size_config.dart';
 import 'package:pomo/ui/views/session/widget/circular_button.dart';
 import 'package:stacked/stacked.dart';
 
+import '../../../services/notification_service.dart';
 import '../../common/app_colors.dart';
 import '../../common/ui_helpers.dart';
 import '../home/home_view.dart';
@@ -82,12 +83,18 @@ class SessionView extends StackedView<SessionViewModel> {
                   onStart: () {},
                   onComplete: () {
                     if (viewModel.isPrimarySession) {
+                      NotificationService().showNotification(
+                          title: 'Time for a break !!',
+                          body: 'Well done champion, Im proud of you');
                       viewModel.updateTimerToLongBreak(
                         breakDuration,
                         longBreakDuration,
                         totalSessions,
                       );
                     } else {
+                      NotificationService().showNotification(
+                          title: 'Time to get back to work !!',
+                          body: 'We go back to work, we go back to the grind.');
                       viewModel.updateTimerToWorkingSession(
                           workDuration, totalSessions);
                       viewModel.incrementSessions();

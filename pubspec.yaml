@@ -11,6 +11,7 @@ dependencies:
   circular_countdown_timer: ^0.2.3
   flutter:
     sdk: flutter
+  flutter_local_notifications: ^17.1.0
   stacked: ^3.4.0
   stacked_services: ^1.1.0
   syncfusion_flutter_sliders: ^25.1.41

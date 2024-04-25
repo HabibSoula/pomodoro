@@ -3,11 +3,14 @@ import 'package:pomo/app/app.bottomsheets.dart';
 import 'package:pomo/app/app.dialogs.dart';
 import 'package:pomo/app/app.locator.dart';
 import 'package:pomo/app/app.router.dart';
+import 'package:pomo/services/notification_service.dart';
 import 'package:pomo/ui/common/app_colors.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  NotificationService().initNotification();
+
   await setupLocator();
   setupDialogUi();
   setupBottomSheetUi();

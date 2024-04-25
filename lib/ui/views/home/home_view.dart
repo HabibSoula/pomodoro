@@ -8,6 +8,7 @@ import 'package:pomo/ui/common/ui_helpers.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 
+import '../../../services/notification_service.dart';
 import 'home_viewmodel.dart';
 
 @FormView(fields: [
@@ -33,128 +34,130 @@ class HomeView extends StackedView<HomeViewModel> with $HomeView {
               color: kcVeryLightGrey),
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: 24.0.w,
-          vertical: 24.0.h,
-        ),
-        child: SafeArea(
-            child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(
-              'Title',
-              style: TextStyle(
-                  fontSize: 16.0.w,
-                  fontWeight: FontWeight.w600,
-                  color: kcVeryLightGrey),
-            ),
-            verticalSpaceSmall,
-            Container(
-              decoration: BoxDecoration(
-                color: kcTextFieldBackgroundColor, // Background color
-                borderRadius: BorderRadius.circular(50.0.w), // Border radius
-              ),
-              child: TextField(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: 24.0.w,
+            vertical: 24.0.h,
+          ),
+          child: SafeArea(
+              child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                'Title',
                 style: TextStyle(
-                  color: kcLightGrey,
-                  fontSize: 14.0.w,
+                    fontSize: 16.0.w,
+                    fontWeight: FontWeight.w600,
+                    color: kcVeryLightGrey),
+              ),
+              verticalSpaceSmall,
+              Container(
+                decoration: BoxDecoration(
+                  color: kcTextFieldBackgroundColor, // Background color
+                  borderRadius: BorderRadius.circular(50.0.w), // Border radius
                 ),
-                controller: titleController,
-                onChanged: (value) {
-                  if (value.isNotEmpty) {
-                    viewModel.changeValidityToFalse();
-                  }
-                },
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  // Remove the default border
-
-                  contentPadding: EdgeInsets.symmetric(horizontal: 16.0.w),
-                  // Padding for text input
-                  // Remove the default border
-                  hintText: 'What activity are you doing ?',
-                  hintStyle: TextStyle(
-                    color: kcMediumGrey,
+                child: TextField(
+                  style: TextStyle(
+                    color: kcLightGrey,
                     fontSize: 14.0.w,
                   ),
-                  // Placeholder text
+                  controller: titleController,
+                  onChanged: (value) {
+                    if (value.isNotEmpty) {
+                      viewModel.changeValidityToFalse();
+                    }
+                  },
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    // Remove the default border
+
+                    contentPadding: EdgeInsets.symmetric(horizontal: 16.0.w),
+                    // Padding for text input
+                    // Remove the default border
+                    hintText: 'What activity are you doing ?',
+                    hintStyle: TextStyle(
+                      color: kcMediumGrey,
+                      fontSize: 14.0.w,
+                    ),
+                    // Placeholder text
+                  ),
                 ),
               ),
-            ),
-            verticalSpaceTiny,
-            viewModel.isValid
-                ? Text(
-                    'Oops, sounds like you forgot this!',
-                    style: TextStyle(
-                        fontSize: 14.0.w,
-                        fontWeight: FontWeight.w400,
-                        color: kcLightBlue),
-                  )
-                : const SizedBox(),
-            verticalSpaceLarge,
-            Text(
-              'Working sessions',
-              style: TextStyle(
-                  fontSize: 16.0.w,
-                  fontWeight: FontWeight.w600,
-                  color: kcVeryLightGrey),
-            ),
-            SfSlider(
-                min: 1.toDouble(),
-                max: 10.toDouble(),
-                value: viewModel.sessions,
-                interval: 1,
-                showLabels: true,
-                activeColor: kcLightBlue,
-                inactiveColor: kcTextFieldBackgroundColor,
-                minorTicksPerInterval: 1,
-                onChanged: (dynamic value) {
-                  viewModel.getSessions(value);
-                }),
-            verticalSpaceLarge,
-            Text(
-              'Short Break Duration',
-              style: TextStyle(
-                  fontSize: 16.0.w,
-                  fontWeight: FontWeight.w600,
-                  color: kcVeryLightGrey),
-            ),
-            SfSlider(
-                min: 0.toDouble(),
-                max: 10.toDouble(),
-                value: viewModel.shortBreak,
-                interval: 1,
-                showLabels: true,
-                activeColor: kcLightBlue,
-                inactiveColor: kcTextFieldBackgroundColor,
-                minorTicksPerInterval: 1,
-                onChanged: (dynamic value) {
-                  viewModel.getShortBreak(value);
-                }),
-            verticalSpaceLarge,
-            Text(
-              'Long break duration',
-              style: TextStyle(
-                  fontSize: 16.0.w,
-                  fontWeight: FontWeight.w600,
-                  color: kcVeryLightGrey),
-            ),
-            SfSlider(
-                min: 0.toDouble(),
-                max: 20.toDouble(),
-                value: viewModel.longBreak,
-                interval: 5,
-                stepSize: 5,
-                showLabels: true,
-                activeColor: kcLightBlue,
-                inactiveColor: kcTextFieldBackgroundColor,
-                onChanged: (dynamic value) {
-                  viewModel.getLongBreak(value);
-                }),
-          ],
-        )),
+              verticalSpaceTiny,
+              viewModel.isValid
+                  ? Text(
+                      'Oops, sounds like you forgot this!',
+                      style: TextStyle(
+                          fontSize: 14.0.w,
+                          fontWeight: FontWeight.w400,
+                          color: kcLightBlue),
+                    )
+                  : const SizedBox(),
+              verticalSpaceLarge,
+              Text(
+                'Working sessions',
+                style: TextStyle(
+                    fontSize: 16.0.w,
+                    fontWeight: FontWeight.w600,
+                    color: kcVeryLightGrey),
+              ),
+              SfSlider(
+                  min: 1.toDouble(),
+                  max: 10.toDouble(),
+                  value: viewModel.sessions,
+                  interval: 1,
+                  showLabels: true,
+                  activeColor: kcLightBlue,
+                  inactiveColor: kcTextFieldBackgroundColor,
+                  minorTicksPerInterval: 1,
+                  onChanged: (dynamic value) {
+                    viewModel.getSessions(value);
+                  }),
+              verticalSpaceLarge,
+              Text(
+                'Short Break Duration',
+                style: TextStyle(
+                    fontSize: 16.0.w,
+                    fontWeight: FontWeight.w600,
+                    color: kcVeryLightGrey),
+              ),
+              SfSlider(
+                  min: 0.toDouble(),
+                  max: 10.toDouble(),
+                  value: viewModel.shortBreak,
+                  interval: 1,
+                  showLabels: true,
+                  activeColor: kcLightBlue,
+                  inactiveColor: kcTextFieldBackgroundColor,
+                  minorTicksPerInterval: 1,
+                  onChanged: (dynamic value) {
+                    viewModel.getShortBreak(value);
+                  }),
+              verticalSpaceLarge,
+              Text(
+                'Long break duration',
+                style: TextStyle(
+                    fontSize: 16.0.w,
+                    fontWeight: FontWeight.w600,
+                    color: kcVeryLightGrey),
+              ),
+              SfSlider(
+                  min: 0.toDouble(),
+                  max: 20.toDouble(),
+                  value: viewModel.longBreak,
+                  interval: 5,
+                  stepSize: 5,
+                  showLabels: true,
+                  activeColor: kcLightBlue,
+                  inactiveColor: kcTextFieldBackgroundColor,
+                  onChanged: (dynamic value) {
+                    viewModel.getLongBreak(value);
+                  }),
+            ],
+          )),
+        ),
       ),
       bottomNavigationBar: Padding(
         padding: EdgeInsets.symmetric(
@@ -168,6 +171,8 @@ class HomeView extends StackedView<HomeViewModel> with $HomeView {
               // Add your button action here
               if (titleController.text.isEmpty) {
                 viewModel.changeValidity();
+                NotificationService()
+                    .showNotification(title: 'Sample title', body: 'It works!');
               } else {
                 print(viewModel.longBreak);
                 viewModel.navigationService.navigateToSessionView(
@@ -177,6 +182,7 @@ class HomeView extends StackedView<HomeViewModel> with $HomeView {
                   totalSessions: viewModel.sessions,
                   longBreakDuration: viewModel.longBreak,
                 );
+
                 viewModel.reset();
                 titleController.clear();
               }
